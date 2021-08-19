@@ -29,6 +29,7 @@ class Service extends EventServiceProvider
     public function boot()
     {
         parent::boot();
+
         include __DIR__ . '/../../routes/api.php';
 
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'genealabs-laravel-mixpanel');
