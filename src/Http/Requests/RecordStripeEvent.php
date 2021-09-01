@@ -83,9 +83,17 @@ class RecordStripeEvent extends FormRequest
         $trackingData = [];
         $planStatus = array_key_exists('status', $transaction) ? $transaction['status'] : null;
         $planName = isset($transaction['plan']['name']) ? $transaction['plan']['name'] : null;
+        if (is_null($planName)) {
+            // check whether plan name using id
+            $planName = isset($transaction['plan']['id']) ? $transaction['plan']['id'] : 'None';
+        }
         $planStart = array_key_exists('start', $transaction) ? $transaction['start'] : null;
         $planAmount = isset($transaction['plan']['amount']) ? $transaction['plan']['amount'] : null;
         $oldPlanName = isset($originalValues['plan']['name']) ? $originalValues['plan']['name'] : null;
+        if (is_null($planName)) {
+            // check whether plan name using id
+            $oldPlanName = isset($originalValues['plan']['id']) ? $originalValues['plan']['id'] : 'None';
+        }
         $oldPlanAmount = isset($originalValues['plan']['amount']) ? $originalValues['plan']['amount'] : null;
 
         if ($planStatus === 'canceled') {
