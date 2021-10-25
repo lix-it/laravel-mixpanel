@@ -41,8 +41,8 @@ class MixpanelEvent
         // current team
         // TODO: make this a callback so you can add group identifiers
         $teamId = null;
-        if (! is_null($user->currentTeam)) {
-            $teamId = $user->currentTeam->id;
+        if (! is_null($user->currentTeam())) {
+            $teamId = $user->currentTeam()->id;
         }
         
         $data = [
