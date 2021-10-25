@@ -37,7 +37,10 @@ class RecordStripeEvent extends FormRequest
         if (! $user) {
             return;
         }
-
+        // get billing member from team to identify as
+        // TODO: make this a callback so a user can specify what they want
+        $team = $user;
+        $user = $team->owner;
         app('mixpanel')->identify($user->id);
 
         if ($transaction['object'] === 'charge' && ! count($originalValues)) {
