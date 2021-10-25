@@ -38,6 +38,13 @@ class MixpanelEvent
             $firstName = implode(' ', $nameParts);
         }
 
+        // current team
+        // TODO: make this a callback so you can add group identifiers
+        $teamId = null;
+        if (! is_null($user->currentTeam)) {
+            $teamId = $user->currentTeam->id;
+        }
+        
         $data = [
             '$first_name' => $firstName,
             '$last_name' => $lastName,
@@ -48,6 +55,7 @@ class MixpanelEvent
                     ->parse($user->created_at)
                     ->format('Y-m-d\Th:i:s')
                 : null),
+            'team_id' => $teamId,
         ];
         array_filter($data);
 
