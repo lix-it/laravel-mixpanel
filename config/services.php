@@ -9,5 +9,7 @@ return [
         'connect-timeout' => 2,
         'timeout' => 2,
         "data_callback_class" => null,
+        'passthrough' => env('MIXPANEL_PASSTHROUGH', false),
+        'debug' => env('APP_DEBUG', false),
     ]
 ];

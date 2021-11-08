@@ -4,6 +4,7 @@ namespace GeneaLabs\LaravelMixpanel;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Log;
 use Mixpanel;
 use Sinergi\BrowserDetector\Browser;
 use Sinergi\BrowserDetector\Device;
@@ -67,6 +68,11 @@ class LaravelMixpanel extends Mixpanel
 
     public function track($event, $properties = [])
     {
+        // check passthrough every time in case config changes after class constructed
+        if (config('services.mixpanel.passthrough')) {
+            Log::debug('mixpanel tracking passthrough: ' . $event);
+            return;
+        }
         $properties = array_filter($properties);
         $data = $properties + $this->getData();
 
