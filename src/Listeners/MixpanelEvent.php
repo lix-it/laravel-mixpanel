@@ -11,7 +11,7 @@ class MixpanelEvent
 
         // if we haven't come from a webhook then use the ip of the request
         $ip = null;
-        if (request()->route()->name !== 'mp:stripe') {
+        if (request()->route && request()->route()->name !== 'mp:stripe') {
             $ip = request()->ip();
         }
         
