@@ -83,4 +83,11 @@ class LaravelMixpanel extends Mixpanel
         
         parent::track($event, $data);
     }
+
+    // getGroup gets the group from the user
+    // TODO: replace with something the user can enter like data_callback_class
+    public function getGroup($user)
+    {
+        return $user->currentTeam();
+    }
 }

@@ -11,5 +11,6 @@ return [
         "data_callback_class" => null,
         'passthrough' => env('MIXPANEL_PASSTHROUGH', false),
         'debug' => env('APP_DEBUG', false),
+        'group_key' => 'team_id',
     ]
 ];
