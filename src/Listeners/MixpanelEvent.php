@@ -77,6 +77,8 @@ class MixpanelEvent
                 ->parse($group->created_at)
                 ->format('Y-m-d\Th:i:s')
                 : null),
+            '$avatar' => $group->photo_url,
+            '$email' => $group->owner->email,
         ];
 
         array_filter($data);
