@@ -9,17 +9,23 @@ class MixpanelEvent
     {
         $user = $event->user;
 
+        // if we haven't come from a webhook then use the ip of the request
+        $ip = null;
+        if (request()->route()->name !== 'mp:stripe') {
+            $ip = request()->ip();
+        }
+        
         if ($user && config("services.mixpanel.enable-default-tracking")) {
             $group = app('mixpanel')->getGroup($user);
             $profileData = $this->getProfileData($user);
             $profileData = array_merge($profileData, $event->profileData);
 
             app('mixpanel')->identify($user->getKey());
-            app('mixpanel')->people->set($user->getKey(), $profileData, request()->ip());
+            app('mixpanel')->people->set($user->getKey(), $profileData, $ip);
 
             if (!is_null($group)) {
                 $groupData = array_merge($this->getGroupData($group), $event->groupData);
-                app('mixpanel')->group->set(config('services.mixpanel.group_key'), $group->getKey(), $groupData, request()->ip());
+                app('mixpanel')->group->set(config('services.mixpanel.group_key'), $group->getKey(), $groupData, $ip);
             }
             
             if ($event->charge !== 0) {
