@@ -50,6 +50,22 @@ class RecordStripeEvent extends FormRequest
         if ($transaction['object'] === 'subscription') {
             $this->recordSubscription($transaction, $user, $originalValues);
         }
+
+        if ($data['type'] === 'payment_method.attached') {
+            $this->handlePaymentMethodAttached($user);
+        }
+    }
+
+    private function handlePaymentMethodAttached($user): void
+    {
+        $trackingData = [
+            'Payment Method Attached' => [],
+        ];
+        $groupData = [
+            'Has Payment Method' => true,
+        ];
+
+        event(new MixpanelEvent($user, $trackingData, 0, [], $groupData));
     }
 
     private function recordCharge(array $transaction, $user)
@@ -77,7 +93,7 @@ class RecordStripeEvent extends FormRequest
             ],
         ];
 
-        event(new MixpanelEvent($user, $trackingData, $charge));
+        event(new MixpanelEvent($user, $trackingData, $charge, $trackingData));
     }
 
     private function recordSubscription(array $transaction, $user, array $originalValues = [])
@@ -185,7 +201,7 @@ class RecordStripeEvent extends FormRequest
             }
         }
 
-        event(new MixpanelEvent($user, $trackingData, 0, $profileData));
+        event(new MixpanelEvent($user, $trackingData, 0, $profileData, $profileData));
     }
 
     private function findStripeCustomerId(array $transaction)

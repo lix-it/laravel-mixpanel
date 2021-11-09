@@ -18,7 +18,7 @@ class MixpanelEvent
             app('mixpanel')->people->set($user->getKey(), $profileData, request()->ip());
 
             if (!is_null($group)) {
-                $groupData = $this->getGroupData($group);
+                $groupData = array_merge($this->getGroupData($group), $event->groupData);
                 app('mixpanel')->group->set(config('services.mixpanel.group_key'), $group->getKey(), $groupData, request()->ip());
             }
             
