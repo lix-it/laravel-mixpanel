@@ -10,12 +10,18 @@ class MixpanelEvent
         $user = $event->user;
 
         if ($user && config("services.mixpanel.enable-default-tracking")) {
+            $group = app('mixpanel')->getGroup($user);
             $profileData = $this->getProfileData($user);
             $profileData = array_merge($profileData, $event->profileData);
 
             app('mixpanel')->identify($user->getKey());
             app('mixpanel')->people->set($user->getKey(), $profileData, request()->ip());
 
+            if (!is_null($group)) {
+                $groupData = $this->getGroupData($group);
+                app('mixpanel')->group->set(config('services.mixpanel.group_key'), $group->getKey(), $groupData, request()->ip());
+            }
+            
             if ($event->charge !== 0) {
                 app('mixpanel')->people->trackCharge($user->id, $event->charge);
             }
@@ -57,6 +63,22 @@ class MixpanelEvent
                 : null),
             'team_id' => $teamId,
         ];
+        array_filter($data);
+
+        return $data;
+    }
+
+    private function getGroupData($group): array
+    {
+        $data = [
+            '$name' => $group->name,
+            '$created' => ($group->created_at
+                ? (new Carbon())
+                ->parse($group->created_at)
+                ->format('Y-m-d\Th:i:s')
+                : null),
+        ];
+
         array_filter($data);
 
         return $data;

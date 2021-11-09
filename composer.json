@@ -22,7 +22,7 @@
         "illuminate/queue": "^8.0",
         "illuminate/routing": "^8.0",
         "illuminate/support": "^8.0",
-        "mixpanel/mixpanel-php": "^2.8",
+        "mixpanel/mixpanel-php": "@dev",
         "sinergi/browser-detector": "^6.1"
     },
     "require-dev": {
