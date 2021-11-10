@@ -62,7 +62,7 @@ class RecordStripeEvent extends FormRequest
             'Payment Method Attached' => [],
         ];
         $groupData = [
-            'Has Payment Method' => true,
+            'has_payment_method' => true,
         ];
 
         event(new MixpanelEvent($user, $trackingData, 0, [], $groupData));

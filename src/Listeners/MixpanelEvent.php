@@ -85,6 +85,9 @@ class MixpanelEvent
                 : null),
             '$avatar' => $group->photo_url,
             '$email' => $group->owner->email,
+            // TODO: remove this and move to a command that syncs, because this queries the Stripe API
+            'has_payment_method' => $group->hasPaymentMethod(),
+            'plan_key' => $group->sparkPlan()->attributes['planKey'],
         ];
 
         array_filter($data);
