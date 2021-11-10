@@ -76,6 +76,7 @@ class MixpanelEvent
 
     private function getGroupData($group): array
     {
+        $sparkPlan = $group->sparkPlan();
         $data = [
             '$name' => $group->name,
             '$created' => ($group->created_at
@@ -85,7 +86,8 @@ class MixpanelEvent
                 : null),
             '$avatar' => $group->photo_url,
             '$email' => $group->owner->email,
-            'plan_key' => $group->sparkPlan()->attributes['planKey'],
+            'plan_key' => $sparkPlan->attributes['planKey'],
+            'currency' => $sparkPlan->attributes['currency'],
         ];
 
         array_filter($data);
