@@ -86,9 +86,9 @@ class MixpanelEvent
                 : null),
             '$avatar' => $group->photo_url,
             '$email' => $group->owner->email,
-            'plan_key' => $sparkPlan->attributes['planKey'],
-            'currency' => $sparkPlan->attributes['currency'],
-            'interval' => $sparkPlan->interval,
+            'plan_key' => isset($sparkPlan) ? $sparkPlan->attributes['planKey'] : null,
+            'currency' => isset($sparkPlan) ? $sparkPlan->attributes['currency'] : null,
+            'interval' => isset($sparkPlan) ? $sparkPlan->interval : null,
         ];
 
         array_filter($data);
