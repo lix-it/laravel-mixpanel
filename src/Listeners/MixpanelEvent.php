@@ -88,6 +88,7 @@ class MixpanelEvent
             '$email' => $group->owner->email,
             'plan_key' => $sparkPlan->attributes['planKey'],
             'currency' => $sparkPlan->attributes['currency'],
+            'interval' => $sparkPlan->interval,
         ];
 
         array_filter($data);
