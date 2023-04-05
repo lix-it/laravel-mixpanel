@@ -34,13 +34,15 @@ class RecordStripeEvent extends FormRequest
         $authModel = config('cashier.model') ?? config('auth.providers.users.model') ?? config('auth.model');
         $user = app($authModel)->where('stripe_id', $stripeCustomerId)->first();
 
-        if (! $user) {
-            return;
-        }
         // get billing member from team to identify as
         // TODO: make this a callback so a user can specify what they want
         $team = $user;
         $user = $team->owner;
+
+        if (! $user) {
+            return;
+        }
+        
         app('mixpanel')->identify($user->id);
 
         if ($transaction['object'] === 'charge' && ! count($originalValues)) {
