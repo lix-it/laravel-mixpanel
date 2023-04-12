@@ -35,6 +35,10 @@ class MixpanelEvent
             foreach ($event->trackingData as $eventName => $data) {
                 app('mixpanel')->track($eventName, $data);
             }
+
+            app('mixpanel')->flush();
+            app('mixpanel')->people->flush();
+            app('mixpanel')->group->flush();
         }
     }
 
