@@ -2,7 +2,7 @@
 
 return [
     'mixpanel' => [
-        'host' => env("MIXPANEL_HOST"),
+        'host' => env("MIXPANEL_HOST", "api-eu.mixpanel.com"),
         'token' => env('MIXPANEL_TOKEN'),
         'enable-default-tracking' => true,
         'consumer' => 'socket',
